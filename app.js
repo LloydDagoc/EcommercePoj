@@ -50,3 +50,62 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+
+// Manage Products route
+app.get('/manage-products', (req, res) => {
+    if (!req.session.loggedIn) {
+        return res.redirect('/login');
+    }
+    res.render('manageProducts', { products });
+});
+
+// Add Product route (POST method)
+app.post('/add-product', (req, res) => {
+    if (!req.session.loggedIn) {
+        return res.redirect('/login');
+    }
+    products.push({ name: req.body.productName, price: req.body.productPrice });
+    res.redirect('/manage-products');
+});
+
+// Manage Users route
+app.get('/manage-users', (req, res) => {
+    if (!req.session.loggedIn) {
+        return res.redirect('/login');
+    }
+    res.render('manageUsers', { users });
+});
+
+// View Orders route
+app.get('/view-orders', (req, res) => {
+    if (!req.session.loggedIn) {
+        return res.redirect('/login');
+    }
+    res.render('viewOrders', { orders });
+});
+
+// Login route
+app.get('/login', (req, res) => {
+    res.render('login', { error: null });
+});
+
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+    if (username === adminUsername && password === adminPassword) {
+        req.session.loggedIn = true;
+        res.redirect('/admin');
+    } else {
+        res.render('login', { error: 'Invalid username or password' });
+    }
+});
+
+// Logout route
+app.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/login');
+});
+
+app.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
+});

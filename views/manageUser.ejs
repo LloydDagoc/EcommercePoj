@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Users</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h1>Manage Users</h1>
+
+    <h2>User List</h2>
+    <ul>
+        <% users.forEach((user) => { %>
+            <li><%= user.name %> - <%= user.email %></li>
+        <% }) %>
+    </ul>
+
+    <a href="/admin">Back to Home</a>
+</body>
+</html>
