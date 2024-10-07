@@ -1,23 +1,74 @@
-<!-- views/adminHome.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Home</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .product-item {
+            margin-bottom: 30px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to the Admin Dashboard</h1>
-    <div class="container">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Admin Dashboard</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/user-list">User List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/add-product">Add Product</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1>Welcome to the Admin Dashboard</h1>
         <p>Hello, <%= admin.username %>! You have successfully logged in as an admin.</p>
 
-        <p>Here are your options:</p>
-        <ul>
-            <li><a href="#">Manage Products</a></li>
-            <li><a href="#">Manage Users</a></li>
-            <li><a href="#">View Orders</a></li>
-            <li><a href="/admin/logout">Logout</a></li>
-        </ul>
+        <h2>Product Display</h2>
+
+        <div class="row">
+            <% products.forEach(function(product) { %>
+                <div class="col-md-4">
+                    <div class="card product-item">
+                        <img src="<%= product.imageUrl %>" class="card-img-top" alt="<%= product.name %>">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= product.name %></h5>
+                            <p class="card-text">$<%= product.price %></p>
+                            <p class="card-text"><%= product.description %></p>
+
+                            <!-- Update button for each product -->
+                            <form action="/update-product/<%= product.id %>" method="GET">
+                                <button type="submit" class="btn btn-primary">Update Product</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
     </div>
+
+    <!-- Bootstrap JS (optional, for dropdowns, etc.) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -1,10 +1,10 @@
 // controllers/loginController.js
-//Display the login form for user
+// Display the login form for the user
 
 const bcryptjs = require('bcryptjs');
 const db = require('../config/db');
 
-//Display the login form
+// Display the login form
 exports.getLoginForm = (req, res) => {
     res.render('login'); // Ensure this renders the correct login view
 };
@@ -21,6 +21,12 @@ exports.postLogin = async (req, res) => {
         if (user.length === 0) {
             req.flash('error_msg', 'No user found with this email.');
             return res.redirect('/login'); // Redirect back to login if no user found
+        }
+
+        // Check if the user is an admin
+        if (user[0].role === 'admin') {
+            req.flash('error_msg', 'Admins cannot log in through this user login form.');
+            return res.redirect('/login'); // Redirect back to login if the user is an admin
         }
 
         // Check if the password matches

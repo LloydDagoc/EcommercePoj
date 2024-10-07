@@ -27,6 +27,14 @@
 </head>
 <body>
     <h1>Admin Login</h1>
+    <% if (error_msg) { %>
+        <div class="alert alert-danger"><%= error_msg %></div>
+    <% } %>
+
+    <!-- Display success message if exists -->
+    <% if (success_msg) { %>
+        <div class="alert alert-success"><%= success_msg %></div>
+    <% } %>
     <form action="/admin-login" method="POST">
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" placeholder="Enter your email" required>

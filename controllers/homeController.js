@@ -1,14 +1,15 @@
-// Display the homepage
+// controllers/homeController.js
+const db = require('../config/db');
 
-
-exports.getHomePage = (req, res) => {
-    // Check if the user is logged in
-    if (req.session.user) {
-        // Render the homepage and pass user information to the view
-        res.render('home', { user: req.session.user });
-    } else {
-        // If the user is not logged in, redirect to login page
-        req.flash('error_msg', 'Please log in to access the homepage.');
-        res.redirect('/login');
+// Fetch products and render homepage
+const getHomePage = async (req, res) => {
+    try {
+        const [products] = await db.query('SELECT * FROM product');
+        res.render('home', { products }); // Pass 'products' to the EJS view
+    } catch (err) {
+        console.error('Error fetching products:', err);
+        res.status(500).send('Error retrieving products');
     }
 };
+
+module.exports = { getHomePage };
